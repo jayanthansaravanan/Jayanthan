@@ -1,1 +1,587 @@
-# Jayanthan
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grand Theater - Book Your Tickets</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        
+        header {
+            background-color: #1a1a2e;
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #e94560;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 1.5rem;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        nav ul li a:hover {
+            color: #e94560;
+        }
+        
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1531058020387-3be344556be6?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            height: 60vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+            padding: 0 1rem;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin-bottom: 2rem;
+        }
+        
+        .btn {
+            background-color: #e94560;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            font-size: 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            text-decoration: none;
+        }
+        
+        .btn:hover {
+            background-color: #d13354;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        
+        .shows-section h2, .booking-section h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+            color: #1a1a2e;
+        }
+        
+        .shows-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .show-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        
+        .show-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .show-img {
+            height: 200px;
+            width: 100%;
+            object-fit: cover;
+        }
+        
+        .show-info {
+            padding: 1.5rem;
+        }
+        
+        .show-info h3 {
+            margin-top: 0;
+            color: #1a1a2e;
+        }
+        
+        .show-info p {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+        
+        .price {
+            font-weight: bold;
+            color: #e94560;
+            font-size: 1.2rem;
+        }
+        
+        .booking-form {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .form-row .form-group {
+            flex: 1;
+        }
+        
+        .seat-selection {
+            margin-top: 1rem;
+        }
+        
+        .seat-map {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        .seat {
+            width: 30px;
+            height: 30px;
+            background-color: #ddd;
+            border-radius: 4px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+        
+        .seat.selected {
+            background-color: #e94560;
+            color: white;
+        }
+        
+        .screen {
+            text-align: center;
+            background-color: #1a1a2e;
+            color: white;
+            padding: 0.5rem;
+            margin-bottom: 1rem;
+            border-radius: 4px;
+        }
+        
+        .booking-summary {
+            background-color: #f9f9f9;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-top: 2rem;
+        }
+        
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+        
+        .total {
+            font-weight: bold;
+            font-size: 1.2rem;
+            border-top: 1px solid #ddd;
+            padding-top: 1rem;
+            margin-top: 1rem;
+        }
+        
+        footer {
+            background-color: #1a1a2e;
+            color: white;
+            text-align: center;
+            padding: 2rem 1rem;
+            margin-top: 3rem;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+        }
+        
+        .footer-links a:hover {
+            color: #e94560;
+        }
+        
+        @media (max-width: 768px) {
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            nav ul {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">Grand Theater</div>
+        <nav>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Shows</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <section class="hero">
+        <h1>Experience the Magic of Live Theater</h1>
+        <p>Book your tickets for unforgettable performances in our world-class venue</p>
+        <a href="#booking" class="btn">Book Now</a>
+    </section>
+    
+    <div class="container">
+        <section class="shows-section">
+            <h2>Current Shows</h2>
+            <div class="shows-grid">
+                <div class="show-card">
+                    <img src="D:\DS\project\batman.png" alt="THE DARK KNIGHT RISES" class="show-img">
+                    <div class="show-info">
+                        <h3>THE DARK KNIGHT RISES</h3>
+                        <p>Set eight years after the events of The Dark Knight, it follows a retired Wayne being forced to resume his role as Batman to save Gotham City from nuclear...</p>
+                        <p><span class="price">From ₹1200</span></p>
+                        <a href="#booking" class="btn">Book Tickets</a>
+                    </div>
+                </div>
+                
+                <div class="show-card">
+                    <img src="D:\DS\project\endgame.png" alt="AVENGERS ENDGAME" class="show-img">
+                    <div class="show-info">
+                        <h3>AVENGERS ENDGAME</h3>
+                        <p>After Thanos, an intergalactic worlor, distingrates half of the universe, the Avengers must reunitr and assemble again to reinvigorate their trouncd alles restore balance. </p>
+                        <p><span class="price">From ₹1800</span></p>
+                        <a href="#booking" class="btn">Book Tickets</a>
+                    </div>
+                </div>
+                
+                <div class="show-card">
+                    <img src="D:\DS\project\aas2.png" alt="AASHIQUI 2" class="show-img">
+                    <div class="show-info">
+                        <h3>AASHIQUI 2</h3>
+                        <p>The film centers on a turbulent romantic relationship between a failing singer, Rahul Jaykar, and his protege, aspiring singer Aarohi Keshav Shirke, which is ...</p>
+                        <p><span class="price">From ₹1500</span></p>
+                        <a href="#booking" class="btn">Book Tickets</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="booking-section" id="booking">
+            <h2>Book Your Tickets</h2>
+            <form class="booking-form" id="ticketForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="show">Select Show</label>
+                        <select id="show" required>
+                            <option value="">-- Choose a show --</option>
+                            <option value="batman">The Dark Knight Rises - ₹1200-₹2200</option>
+                            <option value="phantom">AVENGERS ENDGAME - ₹1800-₹3200</option>
+                            <option value="lesmis">AASHIQUI 2 - ₹1500-₹2500</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="date">Select Date</label>
+                        <input type="date" id="date" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="time">Select Time</label>
+                        <select id="time" required>
+                            <option value="">-- Choose time --</option>
+                            <option value="After Noon">After Noon - 2:00 PM</option>
+                            <option value="evening">Evening - 7:30 PM</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="tickets">Number of Tickets</label>
+                        <input type="number" id="tickets" min="1" max="10" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Seat Selection</label>
+                    <div class="seat-selection">
+                        <div class="screen">SCREEN</div>
+                        <div class="seat-map" id="seatMap">
+                            <!-- Seats will be generated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" required>
+                </div>
+                
+                <div class="booking-summary">
+                    <h3>Order Summary</h3>
+                    <div class="summary-item">
+                        <span>Tickets:</span>
+                        <span id="ticketCount">0</span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Seats:</span>
+                        <span id="selectedSeats">None selected</span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Subtotal:</span>
+                        <span id="subtotal">₹0.00</span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Service Fee:</span>
+                        <span>₹50.00</span>
+                    </div>
+                    <div class="summary-item total">
+                        <span>Total:</span>
+                        <span id="total">₹50.00</span>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn" style="width: 100%; padding: 1rem; font-size: 1.2rem;">Complete Booking</button>
+            </form>
+        </section>
+    </div>
+    
+    <footer>
+        <div class="footer-links">
+            <a href="#">About Us</a>
+            <a href="#">Contact</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms & Conditions</a>
+        </div>
+        <p>&copy; 2023 Grand Theater. All rights reserved.</p>
+    </footer>
+    
+    <script>
+        // 2D array to track seat status
+        const seatStatus = [];
+        const rows = ['A', 'B', 'C', 'D', 'E', 'F'];
+        const seatsPerRow = 10;
+        const seatMap = document.getElementById('seatMap');
+        
+        // Initialize seat status array and create seat elements
+        function initializeSeats() {
+            seatMap.innerHTML = '';
+            seatStatus.length = 0; // Clear the array
+            
+            for (let row = 0; row < rows.length; row++) {
+                seatStatus[row] = []; // Initialize each row
+                for (let seatNum = 1; seatNum <= seatsPerRow; seatNum++) {
+                    seatStatus[row][seatNum] = false; // false means available
+                    
+                    const seatId = `${rows[row]}${seatNum}`;
+                    const seatElement = document.createElement('div');
+                    seatElement.className = 'seat';
+                    seatElement.textContent = seatId;
+                    seatElement.dataset.row = row;
+                    seatElement.dataset.seat = seatNum;
+                    
+                    seatElement.addEventListener('click', function() {
+                        const row = parseInt(this.dataset.row);
+                        const seat = parseInt(this.dataset.seat);
+                        const ticketCount = parseInt(document.getElementById('tickets').value) || 0;
+                        const selectedSeats = document.querySelectorAll('.seat.selected').length;
+                        
+                        // If seat is already selected, deselect it
+                        if (this.classList.contains('selected')) {
+                            this.classList.remove('selected');
+                            seatStatus[row][seat] = false;
+                        } 
+                        // If we haven't reached the ticket count limit, select it
+                        else if (selectedSeats < ticketCount) {
+                            this.classList.add('selected');
+                            seatStatus[row][seat] = true;
+                        } 
+                        // If we've reached the limit, show a message
+                        else {
+                            alert(`You can only select ${ticketCount} seat(s). Please deselect a seat first if you want to change your selection.`);
+                        }
+                        
+                        updateBookingSummary();
+                    });
+                    
+                    seatMap.appendChild(seatElement);
+                }
+            }
+        }
+        
+        // Update booking summary
+        function updateBookingSummary() {
+            const ticketCount = parseInt(document.getElementById('tickets').value) || 0;
+            const selectedSeats = document.querySelectorAll('.seat.selected');
+            
+            // Update ticket count
+            document.getElementById('ticketCount').textContent = ticketCount;
+            
+            // Update selected seats
+            const seatsList = Array.from(selectedSeats).map(seat => seat.textContent).join(', ');
+            document.getElementById('selectedSeats').textContent = seatsList || 'None selected';
+            
+            // Calculate prices
+            const showSelect = document.getElementById('show');
+            let pricePerTicket = 0;
+            
+            if (showSelect.value === 'hamlet') {
+                pricePerTicket = 1200;
+            } else if (showSelect.value === 'phantom') {
+                pricePerTicket = 1800;
+            } else if (showSelect.value === 'lesmis') {
+                pricePerTicket = 1500;
+            }
+            
+            const subtotal = ticketCount * pricePerTicket;
+            const total = subtotal + 50; // ₹50 service fee
+            
+            document.getElementById('subtotal').textContent = `₹${subtotal.toFixed(2)}`;
+            document.getElementById('total').textContent = `₹${total.toFixed(2)}`;
+        }
+        
+        // Initialize seats when page loads
+        initializeSeats();
+        
+        // Add event listeners for form changes
+        document.getElementById('tickets').addEventListener('change', function() {
+            const ticketCount = parseInt(this.value) || 0;
+            const selectedSeats = document.querySelectorAll('.seat.selected').length;
+            
+            // If user reduces ticket count, deselect extra seats
+            if (selectedSeats > ticketCount) {
+                const seatsToDeselect = selectedSeats - ticketCount;
+                const selectedSeatsElements = document.querySelectorAll('.seat.selected');
+                
+                for (let i = 0; i < seatsToDeselect; i++) {
+                    const seat = selectedSeatsElements[i];
+                    seat.classList.remove('selected');
+                    const row = parseInt(seat.dataset.row);
+                    const seatNum = parseInt(seat.dataset.seat);
+                    seatStatus[row][seatNum] = false;
+                }
+            }
+            
+            updateBookingSummary();
+        });
+        
+        document.getElementById('show').addEventListener('change', updateBookingSummary);
+        
+        // Form submission
+        document.getElementById('ticketForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const ticketCount = parseInt(document.getElementById('tickets').value) || 0;
+            const selectedSeats = document.querySelectorAll('.seat.selected').length;
+            
+            if (selectedSeats !== ticketCount) {
+                alert(`Please select exactly ${ticketCount} seat(s).`);
+                return;
+            }
+            
+            // Collect all form data
+            const bookingData = {
+                show: document.getElementById('show').value,
+                date: document.getElementById('date').value,
+                time: document.getElementById('time').value,
+                tickets: ticketCount,
+                seats: Array.from(document.querySelectorAll('.seat.selected')).map(seat => seat.textContent),
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                subtotal: document.getElementById('subtotal').textContent,
+                total: document.getElementById('total').textContent
+            };
+            
+            // Store booking data in localStorage
+            localStorage.setItem('latestBooking', JSON.stringify(bookingData));
+            
+            // Redirect to confirmation page
+            window.location.href = 'confirmation.html';
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Confirmation - Grand Theater</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        
+        header {
+            background-color: #1a1a2e;
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #e94560;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: #1a1a2e;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .confirmation-details {
+            margin-bottom: 2rem;
+        }
+        
+        .detail-item {
+            display: flex;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .detail-label {
+            font-weight: bold;
+            width: 200px;
+        }
+        
+        .detail-value {
+            flex: 1;
+        }
+        
+        .btn {
+            background-color: #e94560;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            font-size: 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 1rem;
+        }
+        
+        .btn:hover {
+            background-color: #d13354;
+        }
+        
+        footer {
+            background-color: #1a1a2e;
+            color: white;
+            text-align: center;
+            padding: 2rem 1rem;
+            margin-top: 3rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">Grand Theater</div>
+    </header>
+    
+    <div class="container">
+        <h1>Booking Confirmation</h1>
+        
+        <div class="confirmation-details" id="confirmationDetails">
+            <!-- Details will be filled by JavaScript -->
+        </div>
+        
+        <a href="index.html" class="btn">Back to Home</a>
+    </div>
+    
+    <footer>
+        <p>&copy; 2023 Grand Theater. All rights reserved.</p>
+    </footer>
+    
+    <script>
+        // Retrieve booking data from localStorage
+        const bookingData = JSON.parse(localStorage.getItem('latestBooking'));
+        const confirmationDetails = document.getElementById('confirmationDetails');
+        
+        if (bookingData) {
+            // Format the show name for display
+            let showName = '';
+            switch(bookingData.show) {
+                case 'batman':
+                    showName = 'THE DARK KNIGHT RISES';
+                    break;
+                case 'phantom':
+                    showName = 'AVENGERS ENDGAME';
+                    break;
+                case 'lesmis':
+                    showName = 'AASHIQUI 2';
+                    break;
+                default:
+                    showName = bookingData.show;
+            }
+            
+            // Format the time for display
+            let time = '';
+            switch(bookingData.time) {
+                case 'After Noon':
+                    time = '2:00 PM (After Noon)';
+                    break;
+                case 'evening':
+                    time = '7:30 PM (Evening)';
+                    break;
+                default:
+                    time = bookingData.time;
+            }
+            
+            // Create HTML for confirmation details
+            confirmationDetails.innerHTML = `
+                <div class="detail-item">
+                    <div class="detail-label">Show:</div>
+                    <div class="detail-value">${showName}</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Date:</div>
+                    <div class="detail-value">${bookingData.date}</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Time:</div>
+                    <div class="detail-value">${time}</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Tickets:</div>
+                    <div class="detail-value">${bookingData.tickets}</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Seats:</div>
+                    <div class="detail-value">${bookingData.seats.join(', ')}</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Customer Name:</div>
+                    <div class="detail-value">${bookingData.name}</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Email:</div>
+                    <div class="detail-value">${bookingData.email}</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Phone:</div>
+                    <div class="detail-value">${bookingData.phone}</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Subtotal:</div>
+                    <div class="detail-value">${bookingData.subtotal}</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Total:</div>
+                    <div class="detail-value">${bookingData.total}</div>
+                </div>
+            `;
+        } else {
+            confirmationDetails.innerHTML = '<p>No booking information found. Please make a booking first.</p>';
+        }
+    </script>
+</body>
+</html>
